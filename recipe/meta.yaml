@@ -7,9 +7,7 @@ source:
 
 build:
   number: {{ environ.get('BUILD_NUMBER', 0) }}
-  script: python setup.py install
-  # entry_points:
-  #   - command = package.module:function
+  script: inv test && python setup.py install
 
 requirements:
   build:
@@ -25,12 +23,7 @@ requirements:
 
 test:
  imports:
-   # anything that should be importable from your package
    - gps_timemachine.gps
-#  commands:
-#    # commands to run post-install of package to test entry_points
-#    # - command --help
-#    # - command --version
 
 about:
   home: https://bitbucket.org/nsidc/gps-timemachine
