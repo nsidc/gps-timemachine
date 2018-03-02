@@ -1,0 +1,13 @@
+name: gps-timemachine
+channels:
+- 'conda-forge'
+- 'nsidc'
+- 'defaults'
+dependencies:
+- conda-forge::flake8=3.3.0
+- conda-forge::flake8-quotes=0.9.0
+- conda-forge::invoke=0.13.0
+- conda-forge::nose=1.3.7
+- conda-forge::python=3.6.4
+- nsidc::musher=0.6.3
+- nsidc::nose-exclude=0.5.0

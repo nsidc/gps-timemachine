@@ -1,0 +1,38 @@
+package:
+  name: gps-timemachine
+  version: "0.1.0"
+
+source:
+  path: ../
+
+build:
+  number: {{ environ.get('BUILD_NUMBER', 0) }}
+  script: python setup.py install
+  # entry_points:
+  #   - command = package.module:function
+
+requirements:
+  build:
+    - python 3.6.4*
+    - flake8 3.3.0
+    - flake8-quotes 0.9.0
+    - invoke 0.13.0
+    - musher 0.6.3
+    - nose 1.3.7
+    - nose-exclude 0.5.0
+  run:
+    - python 3.6.4*
+
+test:
+ imports:
+   # anything that should be importable from your package
+   - gps_timemachine.gps
+#  commands:
+#    # commands to run post-install of package to test entry_points
+#    # - command --help
+#    # - command --version
+
+about:
+  home: https://bitbucket.org/nsidc/gps-timemachine
+  license: MIT
+  summary: Adjust GPS datetimes to UTC.

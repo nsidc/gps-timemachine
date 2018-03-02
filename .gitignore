@@ -1,0 +1,13 @@
+*.py[co]
+/.nsidc-project.yaml
+/.vagrant-*
+/puppet/.librarian
+/puppet/.tmp
+/puppet/Puppetfile.lock
+/puppet/modules
+**/__pycache__
+**/__conda*
+/.vagrant
+/.dir-locals.el
+*egg-info*
+reports
