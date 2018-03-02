@@ -1,20 +1,16 @@
-Getting Started
----
-
-If this is a new project you will need to complete the following steps (assuming you just created this from the cookiecutter template):
-
-0. Add a project description below.
-1. Add the actual project source in `./gps-timemachine`
-2. Edit `./recipe/meta.yaml` adding entry points and/or test commands, and dependencies.
-3. Update the conda `./environment.yml` with the project's correct
-   dependencies. The default values may not be what you need.
-4. Add any runtime commands to `./tasks/run.py`.
-5. Remove this `Getting Started` section.
-
 gps-timemachine
 ---
 
-Describe the project here!
+GPS Time Machine provides the ability to convert a date and GPS time
+(hours, minutes, seconds, fractions of second) to a datetime object.
+GPS Time Machine adjusts for the offset between UTC and GPS time based
+on the number of leap seconds for the specified date. Because the gap
+between UTC and GPS times shift unpredictably based on when leap
+seconds are added by the [International Earth Rotation and Reference
+Systems Service
+(IERS)](https://www.iers.org/IERS/EN/Home/home_node.html), GPS Time
+Machine uses data from the U.S. Naval Observatory for this
+adjustment. See [NOTES](NOTES.md) for more information.
 
 [![CircleCI](https://circleci.com/bb/nsidc/gps-timemachine.svg?style=svg)](https://circleci.com/bb/nsidc/gps-timemachine)
 
@@ -77,5 +73,8 @@ To install and use it in another project:
 License
 ---
 
-Copyright 2016 National Snow and Ice Datacenter (NSIDC)
-<programmers@nsidc.org>
+Copyright 2018 National Snow and Ice Datacenter (NSIDC)
+<programmers@nsidc.org>.
+
+This software is licensed under the MIT License. See [LICENSE
+File](LICENSE).
