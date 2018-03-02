@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='gps-timemachine',
-      version='0.2.0',
+      version='0.2.1',
       description='Adjust GPS datetimes to UTC.',
       url='git@bitbucket.org:nsidc/gps-timemachine.git',
       author='NSIDC Development Team',
