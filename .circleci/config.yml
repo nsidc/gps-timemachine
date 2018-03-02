@@ -11,7 +11,9 @@ jobs:
           command: .circleci/configure_conda.sh
       - run:
           name: Build Package
-          command: invoke build.build --python-version 3.6
+          command: |
+            invoke build.build --python-version 3.5 && \
+            invoke build.build --python-version 3.6
       - store_artifacts:        # Only needed if you want to get them from the circleci interface
           path: /opt/conda/conda-bld/linux-64/
           destination: ~/gps-timemachine/artifacts
