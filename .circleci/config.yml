@@ -57,7 +57,7 @@ jobs:
           command: |
             invoke clean.remove_dev_packages --package=gps-timemachine --token=$ANACONDA_TOKEN
             for ARTIFACT in $(ls /opt/conda/conda-bld/linux-64/*.tar.bz2) ; do
-                invoke deploy.anaconda main $ANACONDA_TOKEN {ARTIFACT}
+                invoke deploy.anaconda main $ANACONDA_TOKEN ${ARTIFACT}
             done
 
 
