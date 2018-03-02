@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/gps-timemachine
     docker:
-      - image: continuumio/miniconda3:4.3.14
+      - image: continuumio/miniconda3:4.3.30
     steps:
       - checkout
       - run:
@@ -24,7 +24,7 @@ jobs:
   publish-to-dev:
     working_directory: ~/gps-timemachine
     docker:
-      - image: continuumio/miniconda3:4.3.14
+      - image: continuumio/miniconda3:4.3.30
     steps:
       - checkout
       - attach_workspace:
@@ -44,7 +44,7 @@ jobs:
   publish-to-main:
     working_directory: ~/gps-timemachine
     docker:
-      - image: continuumio/miniconda3:4.3.14
+      - image: continuumio/miniconda3:4.3.30
     steps:
       - checkout
       - attach_workspace:
