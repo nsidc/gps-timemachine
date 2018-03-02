@@ -1,5 +1,6 @@
 name: gps-timemachine
 channels:
+- conda-forge/channel/main
 - conda-forge
 - https://conda.anaconda.org/conda-forge/channel/main
 - nsidc
@@ -27,6 +28,7 @@ dependencies:
 - xz=5.2.3=0
 - yaml=0.1.7=0
 - zlib=1.2.11=0
+- bumpversion=0.5.3=py36_0
 - musher=0.6.3=py36_0
 - nose-exclude=0.5.0=py36_0
 - pip:

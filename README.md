@@ -58,9 +58,14 @@ In more detail:
 Releasing
 ---
 
-1. Update the CHANGELOG.
-2. Create a version tag in git
-3. Push
+1. Update the [CHANGELOG](CHANGELOG.md).
+2. Bump to the new version:
+
+        $ bumpversion <part>
+
+3. Commit changes
+4. Create a version tag in git
+5. Push
 
         $ git push origin master --tags
 

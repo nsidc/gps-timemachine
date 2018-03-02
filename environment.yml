@@ -4,6 +4,7 @@ channels:
 - 'nsidc'
 - 'defaults'
 dependencies:
+- conda-forge::bumpversion=0.5.3
 - conda-forge::flake8=3.3.0
 - conda-forge::flake8-quotes=0.9.0
 - conda-forge::invoke=0.13.0

@@ -1,3 +1,3 @@
-# vX.Y.Z (Date)
+# v0.2.0 (2018-03-01)
 
-Something that has changed in this version.
+* Initial release as an independent package.
