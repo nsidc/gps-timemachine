@@ -43,7 +43,7 @@ def _gps_time_parts(gps_time):
     h = int(gps_time / 1e4)
     m = int((gps_time % 1e4) / 100)
     s = int(gps_time % 100)
-    ms = int(round((gps_time % 1) * 1000))
+    ms = int((gps_time % 1) * 1000)
 
     return (h, m, s, ms)
 

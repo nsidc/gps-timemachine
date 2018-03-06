@@ -60,6 +60,17 @@ def test_gps_to_utc_later_years_with_hms():
     assert_equal(expected_dt, actual_dt)
 
 
+def test_gps_to_utc_large_milliseconds_bug():
+    # GPS and UTC should differ by 18 seconds
+    d = dt.date(2017, 1, 2)
+    gps_time = 123456.9996
+    expected_dt = dt.datetime(2017, 1, 2, 12, 34, 38, 999000)
+
+    actual_dt = gps_to_utc(d, gps_time)
+
+    assert_equal(expected_dt, actual_dt)
+
+
 def test_load_leap_seconds():
     leap_seconds = load_leap_seconds()
     expected = (dt.datetime(1983, 7, 1, 0, 0), 3.0)
