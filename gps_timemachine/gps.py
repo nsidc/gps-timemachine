@@ -81,7 +81,8 @@ def load_leap_seconds():
         day = data[2] if len(data[2]) == 2 else '0' + data[2]
         date_str = data[0] + data[1] + day
         date = dt.datetime.strptime(date_str, '%Y%b%d')
-        # gps was sychronized with utc on 1980-01-06 at which point there were already 19 leap seconds
+        # gps was sychronized with utc on 1980-01-06 at which point there were
+        # already 19 leap seconds
         leap_seconds.append((date, float(data[6]) - 19))
 
     return leap_seconds
