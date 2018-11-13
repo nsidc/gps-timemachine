@@ -95,7 +95,11 @@ def _gps_time_parts(gps_time):
     h = int(gps_time / 1e4)
     m = int((gps_time % 1e4) / 100)
     s = int(gps_time % 100)
-    ms = int((gps_time % 1) * 1000)
+    ms = int(round((gps_time % 1) * 1000))
+
+    if ms == 1000:
+        s += 1
+        ms = 0
 
     return (h, m, s, ms)
 
@@ -153,9 +157,8 @@ def gps_to_utc(date, gps_time):
         msg = 'Corrected to {0} {1}:{2}:{3}.{4}.'.format(date, hours, minutes,
                                                          seconds, milliseconds)
         logging.warning(msg)
-    gps_dt = dt.datetime(date.year, date.month, date.day,
-                         hour=hours, minute=minutes,
-                         second=seconds, microsecond=milliseconds*1000)
+    gps_dt = dt.datetime(date.year, date.month, date.day, hour=hours,
+                         minute=minutes, second=seconds, microsecond=milliseconds*1000)
     utc_dt = gps_dt - dt.timedelta(seconds=leap_seconds(gps_dt))
 
     return utc_dt
