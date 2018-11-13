@@ -1,6 +1,25 @@
 import datetime as dt
 import logging
 from urllib.request import urlopen
+from urllib.error import URLError
+
+from .errors import LeapSecondsDataUnavailable
+
+
+def _get_tai_utc():
+    # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
+    URLS_TO_TRY = ('http://maia.usno.navy.mil/ser7/tai-utc.dat',
+                   'http://toshi.nofs.navy.mil/ser7/tai-utc.dat',
+                   'ftp://cddis.gsfc.nasa.gov/pub/products/iers/tai-utc.dat')
+
+    for url in URLS_TO_TRY:
+        try:
+            f = urlopen(url, timeout=5)
+            return f
+        except URLError:
+            pass
+
+    raise LeapSecondsDataUnavailable(URLS_TO_TRY)
 
 
 def load_leap_seconds():
@@ -20,18 +39,16 @@ def load_leap_seconds():
         [(datetime1, 25.0), (datetime2, 26.0)]
 
     '''
-    # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
-    url = 'http://maia.usno.navy.mil/ser7/tai-utc.dat'
+    f = _get_tai_utc()
+
     leap_seconds = []
-    with urlopen(url) as f:
-        for line in f:
-            data = line.decode('utf-8').split()
-            day = data[2] if len(data[2]) == 2 else '0' + data[2]
-            date_str = data[0] + data[1] + day
-            date = dt.datetime.strptime(date_str, '%Y%b%d')
-            # gps was sychronized with utc on 1980-01-06 at which
-            # point there were already 19 leap seconds
-            leap_seconds.append((date, float(data[6]) - 19))
+    for line in f:
+        data = line.decode('utf-8').split()
+        day = data[2] if len(data[2]) == 2 else '0' + data[2]
+        date_str = data[0] + data[1] + day
+        date = dt.datetime.strptime(date_str, '%Y%b%d')
+        # gps was sychronized with utc on 1980-01-06 at which point there were already 19 leap seconds
+        leap_seconds.append((date, float(data[6]) - 19))
 
     return leap_seconds
 
