@@ -1,6 +1,59 @@
 import datetime as dt
 import logging
 from urllib.request import urlopen
+from urllib.error import URLError
+
+from .errors import LeapSecondsDataUnavailable
+
+'''
+NOTES on GPS -> UTC convertion
+------------------------------
+
+GPS time is offset from UTC because UTC time includes leap seconds but GPS does
+not. Unfortunately, leap seconds are not added on a well defined schedule, so
+the only way to know the GPS-UTC offset is to look up the historical record of
+leap second additions. We currently know of three ways this can be accomplished:
+
+1) CURRENTLY IMPLEMENTED - Query a remote resource to get the current list of
+leap seconds. In this case, we're using a url at the US Naval Observatory, but
+there may be others. With the list of leap seconds and when they were applied,
+you can determine the appropriate GPS-UTC offset for any date.
+PROS - should always be up-to-date. Fast.
+CONS - relies on an external url which could be down for some reason
+
+2) Python package - Use a python package like astropy that has different time
+conversions built in. For a possible implementation, see
+https://bitbucket.org/nsidc/valkyrie-ingest/commits/51631bdfe3a5ea875f430bd55b60fe18f98174aa.
+which uses TAI time as an intermediate. TAI is always 19 seconds ahead of GPS,
+and GPS is a variable number of seconds ahead of UTC, depending on the date and t
+ime. For exact delta between UTC and TAI, see:
+http://hpiers.obspm.fr/eop-pc/index.php?index=TAI-UTC_tab&lang=en
+PROS - no external resources required
+CONS - First implementation was much slower. Package may need to be updated to
+get new leap seconds as they are added?
+
+3) OS file - Read the file(s) on the OS that store time and date information.
+For example, /usr/share/zoneinfo
+PROS - should be fast, like option #1. Doesn't rely on an external url
+CONS - could be platform dependent? OS would need to be updated to get new
+files as they are available.
+'''
+
+
+def _get_tai_utc():
+    # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
+    URLS_TO_TRY = ('http://maia.usno.navy.mil/ser7/tai-utc.dat',
+                   'http://toshi.nofs.navy.mil/ser7/tai-utc.dat',
+                   'ftp://cddis.gsfc.nasa.gov/pub/products/iers/tai-utc.dat')
+
+    for url in URLS_TO_TRY:
+        try:
+            f = urlopen(url, timeout=5)
+            return f
+        except URLError:
+            pass
+
+    raise LeapSecondsDataUnavailable(URLS_TO_TRY)
 
 
 def load_leap_seconds():
@@ -20,18 +73,17 @@ def load_leap_seconds():
         [(datetime1, 25.0), (datetime2, 26.0)]
 
     '''
-    # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
-    url = 'http://maia.usno.navy.mil/ser7/tai-utc.dat'
+    f = _get_tai_utc()
+
     leap_seconds = []
-    with urlopen(url) as f:
-        for line in f:
-            data = line.decode('utf-8').split()
-            day = data[2] if len(data[2]) == 2 else '0' + data[2]
-            date_str = data[0] + data[1] + day
-            date = dt.datetime.strptime(date_str, '%Y%b%d')
-            # gps was sychronized with utc on 1980-01-06 at which
-            # point there were already 19 leap seconds
-            leap_seconds.append((date, float(data[6]) - 19))
+    for line in f:
+        data = line.decode('utf-8').split()
+        day = data[2] if len(data[2]) == 2 else '0' + data[2]
+        date_str = data[0] + data[1] + day
+        date = dt.datetime.strptime(date_str, '%Y%b%d')
+        # gps was sychronized with utc on 1980-01-06 at which point there were
+        # already 19 leap seconds
+        leap_seconds.append((date, float(data[6]) - 19))
 
     return leap_seconds
 
@@ -43,7 +95,11 @@ def _gps_time_parts(gps_time):
     h = int(gps_time / 1e4)
     m = int((gps_time % 1e4) / 100)
     s = int(gps_time % 100)
-    ms = int((gps_time % 1) * 1000)
+    ms = int(round((gps_time % 1) * 1000))
+
+    if ms == 1000:
+        s += 1
+        ms = 0
 
     return (h, m, s, ms)
 
@@ -101,9 +157,8 @@ def gps_to_utc(date, gps_time):
         msg = 'Corrected to {0} {1}:{2}:{3}.{4}.'.format(date, hours, minutes,
                                                          seconds, milliseconds)
         logging.warning(msg)
-    gps_dt = dt.datetime(date.year, date.month, date.day,
-                         hour=hours, minute=minutes,
-                         second=seconds, microsecond=milliseconds*1000)
+    gps_dt = dt.datetime(date.year, date.month, date.day, hour=hours,
+                         minute=minutes, second=seconds, microsecond=milliseconds*1000)
     utc_dt = gps_dt - dt.timedelta(seconds=leap_seconds(gps_dt))
 
     return utc_dt
