@@ -71,6 +71,17 @@ def test_gps_to_utc_large_milliseconds_bug():
     assert_equal(expected_dt, actual_dt)
 
 
+def test_gps_to_utc_large_milliseconds_rolls_to_next_day():
+    # GPS and UTC were the same
+    d = dt.date(1981, 1, 6)
+    gps_time = 235959.9996
+    expected_dt = dt.datetime(1981, 1, 7, 0, 0, 0)
+
+    actual_dt = gps_to_utc(d, gps_time)
+
+    assert_equal(expected_dt, actual_dt)
+
+
 def test_load_leap_seconds():
     leap_seconds = load_leap_seconds()
     expected = (dt.datetime(1983, 7, 1, 0, 0), 3.0)
