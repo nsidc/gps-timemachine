@@ -64,7 +64,18 @@ def test_gps_to_utc_large_milliseconds_bug():
     # GPS and UTC should differ by 18 seconds
     d = dt.date(2017, 1, 2)
     gps_time = 123456.9996
-    expected_dt = dt.datetime(2017, 1, 2, 12, 34, 38, 999000)
+    expected_dt = dt.datetime(2017, 1, 2, 12, 34, 39)
+
+    actual_dt = gps_to_utc(d, gps_time)
+
+    assert_equal(expected_dt, actual_dt)
+
+
+def test_gps_to_utc_large_milliseconds_rolls_to_next_day():
+    # GPS and UTC were the same
+    d = dt.date(1981, 1, 6)
+    gps_time = 235959.9996
+    expected_dt = dt.datetime(1981, 1, 7, 0, 0, 0)
 
     actual_dt = gps_to_utc(d, gps_time)
 
