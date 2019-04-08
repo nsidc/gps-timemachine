@@ -8,6 +8,7 @@ source:
 build:
   number: {{ environ.get('BUILD_NUMBER', 0) }}
   script: |
+    mkdir -p reports/nose && \
     nosetests --verbose --exclude-dir=recipe --with-xunit --xunit-file=reports/nose/xunit.xml && \
     python setup.py install
 
