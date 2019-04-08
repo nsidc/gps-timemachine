@@ -35,39 +35,36 @@ Install dependencies:
 Workflow
 ---
 
-TL;DR: Use
+TL;DR:  Use
 [GitHub Flow](https://guides.github.com/introduction/flow/index.html).
 
 In more detail:
 
 1. Create a feature branch.
-2. Create commits on that branch and open a PR.
-3. The feature branch will get built on CircleCI with each push to
-   BitBucket.
-4. Bump the version to the next anticipated release version (see
-   below).
-
-        $ bumpversion <major|minor|patch>
-
-5. When the feature PR is merged, master will get built on CircleCI,
-   and the 'dev' version of the package will be published
-   to [Anaconda.org](https://anaconda.org/) with the dev label.
-6. Do a release on master when you are ready (See below), and a
-   version of the package will be published with the main label.
+2. Create and push commits on that branch.
+3. The feature branch will get built on CircleCI with each push.
+4. Update the CHANGELOG with description of changes.
+5. Create a Pull Request on BitBucket.
+6. When the feature PR is merged, master will get built on CircleCI.
 
 Releasing
 ---
 
-1. Update the [CHANGELOG](CHANGELOG.md).
-2. Bump to the new version:
+1. Update the CHANGELOG to list the new version.
+2. Add files and commit
 
-        $ bumpversion <part>
+        $ git add CHANGELOG.md ...
+        $ git commit -m "Release v.X.Y.Z"
 
-3. Commit changes
-4. Create a version tag in git
-5. Push
+3. Bump the version to the desired level:
+
+        $ bumpversion (major|minor|patch)
+
+4. Push
 
         $ git push origin master --tags
+
+CircleCI will build the conda package and publish it to anaconda.org.
 
 Installing
 ---

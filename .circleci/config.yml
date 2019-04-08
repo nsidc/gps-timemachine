@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/gps-timemachine
     docker:
-      - image: continuumio/miniconda3:4.3.27
+      - image: continuumio/miniconda3:4.3.30
     steps:
       - checkout
       - run:
@@ -12,8 +12,9 @@ jobs:
       - run:
           name: Build Package
           command: |
-            invoke build.build --python-version 3.5 && \
-            invoke build.build --python-version 3.6
+            conda build recipe --python-version 3.5 && \
+            conda build recipe --python-version 3.6 && \
+            conda build recipe --python-version 3.7
       - store_artifacts:        # Only needed if you want to get them from the circleci interface
           path: /opt/conda/conda-bld/linux-64/
           destination: ~/gps-timemachine/artifacts
@@ -23,30 +24,10 @@ jobs:
             - conda/conda-bld
 
 
-  publish-to-dev:
-    working_directory: ~/gps-timemachine
-    docker:
-      - image: continuumio/miniconda3:4.3.27
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /opt
-      - run:
-          name: Configure Conda
-          command: .circleci/configure_conda.sh
-      - run:
-          name: Publish to anaconda.org dev channel
-          command: |
-            invoke deploy.assert_new_package gps-timemachine
-            invoke clean.remove_dev_packages --package=gps-timemachine --token=$ANACONDA_TOKEN
-            for ARTIFACT in $(ls /opt/conda/conda-bld/linux-64/*.tar.bz2) ; do
-                invoke deploy.anaconda dev $ANACONDA_TOKEN ${ARTIFACT}
-            done
-
   publish-to-main:
     working_directory: ~/gps-timemachine
     docker:
-      - image: continuumio/miniconda3:4.3.27
+      - image: continuumio/miniconda3:4.3.30
     steps:
       - checkout
       - attach_workspace:
@@ -57,29 +38,22 @@ jobs:
       - run:
           name: publish to anaconda.org main channel
           command: |
-            invoke clean.remove_dev_packages --package=gps-timemachine --token=$ANACONDA_TOKEN
-            for ARTIFACT in $(ls /opt/conda/conda-bld/linux-64/*.tar.bz2) ; do
-                invoke deploy.anaconda main $ANACONDA_TOKEN ${ARTIFACT}
+            for ARTIFACT in $(ls ~/gps-timemachine/artifacts/*.tar.bz2) ; do
+                for OS in 'linux-64', 'osx-64', 'win-32', 'win-64' ; do
+                    conda convert ${ARTIFACT} -p ${OS} -o ~/gps-timemachine/artifacts
+                    anaconda -t ${ANACONDA_TOKEN} upload -u nsidc ${ARTIFACT} -l main
+                done
             done
 
 
 workflows:
   version: 2
-  build-and-deploy-some:
-
+  build-all-and-deploy-releases:
     jobs:
       - build:
           filters:
             tags:
                only: /.*/
-
-      - publish-to-dev:
-          requires:
-            - build
-          filters:
-            branches:
-              only: /^master$/
-          context: org-global
 
       - publish-to-main:
           requires:

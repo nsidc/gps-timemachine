@@ -7,14 +7,14 @@ source:
 
 build:
   number: {{ environ.get('BUILD_NUMBER', 0) }}
-  script: inv test && python setup.py install
+  script: |
+    nosetests --verbose --exclude-dir=recipe --with-xunit --xunit-file=reports/nose/xunit.xml && \
+    python setup.py install
 
 requirements:
   build:
     - flake8 3.3.0
     - flake8-quotes 0.9.0
-    - invoke 0.13.0
-    - musher 0.6.3
     - nose 1.3.7
     - nose-exclude 0.5.0
     - python
