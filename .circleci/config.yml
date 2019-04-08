@@ -12,9 +12,9 @@ jobs:
       - run:
           name: Build Package
           command: |
-            conda build recipe --python-version 3.5 && \
-            conda build recipe --python-version 3.6 && \
-            conda build recipe --python-version 3.7
+            conda build recipe --python 3.5 && \
+            conda build recipe --python 3.6 && \
+            conda build recipe --python 3.7
       - store_artifacts:        # Only needed if you want to get them from the circleci interface
           path: /opt/conda/conda-bld/linux-64/
           destination: ~/gps-timemachine/artifacts
