@@ -8,7 +8,8 @@ source:
 build:
   noarch: python
   script: |
-    nosetests --verbose --with-xunit --xunit-file=reports/nose/xunit.xml
+    mkdir -p reports/nose && \
+    nosetests --verbose --with-xunit --xunit-file=reports/nose/xunit.xml && \
     python setup.py install
 
 requirements:
