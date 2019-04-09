@@ -29,7 +29,7 @@ Development
 
 Install dependencies:
 
-    $ conda env create -f=./environment.yml
+    $ conda env create -f=./environment.locked.yml
     $ source activate gps-timemachine
 
 Workflow
@@ -75,7 +75,7 @@ To install and use it in another project:
 License
 ---
 
-Copyright 2018 National Snow and Ice Datacenter (NSIDC)
+Copyright 2018-2019 National Snow and Ice Datacenter (NSIDC)
 <programmers@nsidc.org>.
 
 This software is licensed under the MIT License. See [LICENSE
