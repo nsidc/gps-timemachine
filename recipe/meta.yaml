@@ -7,7 +7,9 @@ source:
 
 build:
   noarch: python
-  script: python setup.py install
+  script: |
+    nosetests --verbose --with-xunit --xunit-file=reports/nose/xunit.xml
+    python setup.py install
 
 requirements:
   build:
@@ -19,13 +21,8 @@ requirements:
     - python
 
 test:
-  requires:
-    - nose
   imports:
     - gps_timemachine.gps
-  commands:
-    - mkdir -p reports/nose
-    - nosetests --verbose --with-xunit --xunit-file=reports/nose/xunit.xml
 
 about:
   home: https://bitbucket.org/nsidc/gps-timemachine
