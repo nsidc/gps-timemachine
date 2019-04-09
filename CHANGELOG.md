@@ -1,4 +1,4 @@
-# v0.2.7 (2019-04-08)
+# v0.2.6 (2019-04-08)
 
 * Streamline the CI build and release.
 * Add a build target for Python 3.7
