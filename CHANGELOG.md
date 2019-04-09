@@ -1,3 +1,8 @@
+# v0.2.7 (2019-04-08)
+
+* Streamline the CI build and release.
+* Add a build target for Python 3.7
+
 # v0.2.5 (2018-11-15)
 
 * Add additional sources for leap second data. When the primary source of leap

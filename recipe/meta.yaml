@@ -6,24 +6,24 @@ source:
   path: ../
 
 build:
-  number: {{ environ.get('BUILD_NUMBER', 0) }}
-  script: inv test && python setup.py install
+  noarch: python
+  script: |
+    mkdir -p reports/nose && \
+    nosetests --verbose --with-xunit --xunit-file=reports/nose/xunit.xml && \
+    python setup.py install
 
 requirements:
   build:
-    - flake8 3.3.0
-    - flake8-quotes 0.9.0
-    - invoke 0.13.0
-    - musher 0.6.3
+    - flake8 3.5
+    - flake8-quotes 0.12
     - nose 1.3.7
-    - nose-exclude 0.5.0
     - python
   run:
     - python
 
 test:
- imports:
-   - gps_timemachine.gps
+  imports:
+    - gps_timemachine.gps
 
 about:
   home: https://bitbucket.org/nsidc/gps-timemachine
