@@ -11,13 +11,7 @@ jobs:
           command: .circleci/configure_conda.sh
       - run:
           name: Build Package
-          command: |
-            conda build recipe --python 3.5 && \
-            conda build recipe --python 3.6 && \
-            conda build recipe --python 3.7
-      - store_artifacts:        # Only needed if you want to get them from the circleci interface
-          path: /opt/conda/conda-bld/linux-64/
-          destination: ~/gps-timemachine/artifacts
+          command: conda build recipe
       - persist_to_workspace:
           root: /opt
           paths:
@@ -38,12 +32,8 @@ jobs:
       - run:
           name: publish to anaconda.org main channel
           command: |
-            for ARTIFACT in $(ls ~/gps-timemachine/artifacts/*.tar.bz2) ; do
-                for OS in 'linux-64', 'osx-64', 'win-32', 'win-64' ; do
-                    conda convert ${ARTIFACT} -p ${OS} -o ~/gps-timemachine/artifacts
-                    anaconda -t ${ANACONDA_TOKEN} upload -u nsidc ${ARTIFACT} -l main
-                done
-            done
+            ARTIFACT=`conda build . --output`
+            anaconda -t ${ANACONDA_TOKEN} upload -u nsidc -l main ${ARTIFACT}
 
 
 workflows:
