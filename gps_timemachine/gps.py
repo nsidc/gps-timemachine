@@ -1,7 +1,8 @@
 import datetime as dt
 import logging
 from urllib.request import urlopen
-from urllib.error import URLError
+from urllib.error import URLError, HTTPError, ContentTooShortError
+import socket
 
 from .errors import LeapSecondsDataUnavailable
 
@@ -50,7 +51,8 @@ def _get_tai_utc():
         try:
             f = urlopen(url, timeout=5)
             return f
-        except URLError:
+        except (URLError, HTTPError, ContentTooShortError,
+                TimeoutError, socket.error):
             pass
 
     raise LeapSecondsDataUnavailable(URLS_TO_TRY)
