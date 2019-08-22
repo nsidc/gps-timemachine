@@ -90,7 +90,15 @@ def load_leap_seconds():
     return leap_seconds
 
 
-LEAP_SECONDS = load_leap_seconds()
+_LEAP_SECONDS = None
+
+
+def get_leap_seconds():
+    global _LEAP_SECONDS
+    if _LEAP_SECONDS is None:
+        _LEAP_SECONDS = load_leap_seconds()
+
+    return _LEAP_SECONDS
 
 
 def _gps_time_parts(gps_time):
@@ -120,11 +128,11 @@ def leap_seconds(dt):
     leap_seconds (type: float)
         number of leap seconds
     '''
-    idx = len(LEAP_SECONDS) - 1
+    idx = len(get_leap_seconds()) - 1
     # start at the end of the list becuase most data falls later in the 1961 - present record
-    while LEAP_SECONDS[idx][0] > dt:
+    while get_leap_seconds()[idx][0] > dt:
         idx -= 1
-    leap_seconds = LEAP_SECONDS[idx][1]
+    leap_seconds = get_leap_seconds()[idx][1]
     return leap_seconds
 
 
