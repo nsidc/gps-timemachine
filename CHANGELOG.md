@@ -9,7 +9,7 @@
 
 # v0.2.7 (2019-08-19)
 
-- Explicitly catch socket timeout errors when requesting leap second
+* Explicitly catch socket timeout errors when requesting leap second
   data. Sometimes we get a socket timeout error when attempting to fetch data
   from one of the leap second sources. This should be raised as a URLError or a
   TimeoutError but in practice we sometimes see `socket.timeout` errors.
