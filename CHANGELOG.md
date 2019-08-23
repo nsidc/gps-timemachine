@@ -1,6 +1,13 @@
+# v1.0.0 (2019-08-21)
+
+* Remove `LEAP_SECONDS` variable from the `gps` module. Previously, the variable
+  `LEAP_SECONDS` was initialized on import-time. This can cause problems for
+  code that depends on this package if network accesss to all of the configured
+  leap second data sources is unavailable.
+
 # v0.2.7 (2019-08-19)
 
-- Explicitly catch socket timeout errors when requesting leap second
+* Explicitly catch socket timeout errors when requesting leap second
   data. Sometimes we get a socket timeout error when attempting to fetch data
   from one of the leap second sources. This should be raised as a URLError or a
   TimeoutError but in practice we sometimes see `socket.timeout` errors.
