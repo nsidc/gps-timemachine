@@ -3,6 +3,7 @@ import logging
 from urllib.request import urlopen
 from urllib.error import URLError, HTTPError, ContentTooShortError
 import socket
+from functools import lru_cache
 
 from .errors import LeapSecondsDataUnavailable
 
@@ -90,15 +91,10 @@ def load_leap_seconds():
     return leap_seconds
 
 
-_LEAP_SECONDS = None
-
-
+@lru_cache()
 def get_leap_seconds():
-    global _LEAP_SECONDS
-    if _LEAP_SECONDS is None:
-        _LEAP_SECONDS = load_leap_seconds()
 
-    return _LEAP_SECONDS
+    return load_leap_seconds()
 
 
 def _gps_time_parts(gps_time):

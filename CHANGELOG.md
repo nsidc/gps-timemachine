@@ -1,11 +1,9 @@
 # v1.0.0 (2019-08-21)
 
-* Remove `LEAP_SECONDS` variable from the `gps` module, replace with private
-  `_LEAP_SECONDS`, which is initialized to `None` until `get_leap_seconds()` is
-  called. Previously, the variable `LEAP_SECONDS` was initialized on
-  import-time. This can cause problems for code that depends on this package if
-  network accesss to all of the configured leap second data sources is
-  unavailable.
+* Remove `LEAP_SECONDS` variable from the `gps` module. Previously, the variable
+  `LEAP_SECONDS` was initialized on import-time. This can cause problems for
+  code that depends on this package if network accesss to all of the configured
+  leap second data sources is unavailable.
 
 # v0.2.7 (2019-08-19)
 
