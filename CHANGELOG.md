@@ -1,3 +1,8 @@
+# Unreleased
+
+* Add an option to use a locally stored version of the tai-utc.dat file in case
+  the URLs used are not working.
+
 # v1.0.0 (2019-08-21)
 
 * Remove `LEAP_SECONDS` variable from the `gps` module. Previously, the variable

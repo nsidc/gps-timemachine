@@ -1,5 +1,6 @@
 import datetime as dt
 import logging
+from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError, HTTPError, ContentTooShortError
 import socket
@@ -7,7 +8,7 @@ from functools import lru_cache
 
 from .errors import LeapSecondsDataUnavailable
 
-'''
+"""
 NOTES on GPS -> UTC convertion
 ------------------------------
 
@@ -39,10 +40,10 @@ For example, /usr/share/zoneinfo
 PROS - should be fast, like option #1. Doesn't rely on an external url
 CONS - could be platform dependent? OS would need to be updated to get new
 files as they are available.
-'''
+"""
 
 
-def _get_tai_utc():
+def _get_tai_utc(use_local=False):
     # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
     URLS_TO_TRY = ('http://maia.usno.navy.mil/ser7/tai-utc.dat',
                    'http://toshi.nofs.navy.mil/ser7/tai-utc.dat',
@@ -56,16 +57,23 @@ def _get_tai_utc():
                 TimeoutError, socket.error):
             pass
 
+    if use_local:
+        path = Path(__file__).parent / 'static' / 'tai-utc.dat'
+        f = path.open()
+        return f
+
     raise LeapSecondsDataUnavailable(URLS_TO_TRY)
 
 
-def load_leap_seconds():
-    '''Loads the historical record of leap seconds from the Time Service Dept.
+def load_leap_seconds(use_local=False):
+    """Loads the historical record of leap seconds from the Time Service Dept.
     of the US Naval Observatory
 
     Parameters
     ----------
-    None
+    use_local (type: boolean)
+        If set to True, will load a locally stored copy of the leap second data if the
+        remote options are not available.  Defaults to False.
 
     Returns
     -------
@@ -75,12 +83,14 @@ def load_leap_seconds():
         Example:
         [(datetime1, 25.0), (datetime2, 26.0)]
 
-    '''
-    f = _get_tai_utc()
+    """
+    f = _get_tai_utc(use_local)
 
     leap_seconds = []
     for line in f:
-        data = line.decode('utf-8').split()
+        if not isinstance(line, str):
+            line = line.decode('utf-8')
+        data = line.split()
         day = data[2] if len(data[2]) == 2 else '0' + data[2]
         date_str = data[0] + data[1] + day
         date = dt.datetime.strptime(date_str, '%Y%b%d')
@@ -92,9 +102,9 @@ def load_leap_seconds():
 
 
 @lru_cache()
-def get_leap_seconds():
+def get_leap_seconds(use_local=False):
 
-    return load_leap_seconds()
+    return load_leap_seconds(use_local)
 
 
 def _gps_time_parts(gps_time):
@@ -110,29 +120,32 @@ def _gps_time_parts(gps_time):
     return (h, m, s, ms)
 
 
-def leap_seconds(dt):
-    '''
+def leap_seconds(dt, use_local=False):
+    """
     search the historical leap second record to find in the correct number of
     leap seconds to apply to the given datetime
     Parameters
     ----------
     dt (type: datetime)
         datetime for which to find the correct number of leap seconds
+    use_local (type: boolean)
+        If set to true, will allow using a locally stored file if the online versions are not
+        available.  Defaults to false.
 
     Returns
     -------
     leap_seconds (type: float)
         number of leap seconds
-    '''
-    idx = len(get_leap_seconds()) - 1
+    """
+    idx = len(get_leap_seconds(use_local)) - 1
     # start at the end of the list becuase most data falls later in the 1961 - present record
-    while get_leap_seconds()[idx][0] > dt:
+    while get_leap_seconds(use_local)[idx][0] > dt:
         idx -= 1
-    leap_seconds = get_leap_seconds()[idx][1]
+    leap_seconds = get_leap_seconds(use_local)[idx][1]
     return leap_seconds
 
 
-def gps_to_utc(date, gps_time):
+def gps_to_utc(date, gps_time, use_local=False):
     """Convert the GPS time on a given date into a UTC datetime.
 
     Parameters
@@ -142,6 +155,9 @@ def gps_to_utc(date, gps_time):
     gps_time
         The GPS time (float) for the given date. E.g., 12:34:56.789
         is the floating point number 123456.789.
+    use_local (type: boolean)
+        If set to true, will allow using a locally stored file if the online versions are not
+        available.  Defaults to false.
 
     Returns
     -------
@@ -165,6 +181,6 @@ def gps_to_utc(date, gps_time):
         logging.warning(msg)
     gps_dt = dt.datetime(date.year, date.month, date.day, hour=hours,
                          minute=minutes, second=seconds, microsecond=milliseconds*1000)
-    utc_dt = gps_dt - dt.timedelta(seconds=leap_seconds(gps_dt))
+    utc_dt = gps_dt - dt.timedelta(seconds=leap_seconds(gps_dt, use_local))
 
     return utc_dt
