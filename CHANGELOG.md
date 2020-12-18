@@ -1,7 +1,7 @@
 # Unreleased
 
-* Add an option to use a locally stored version of the tai-utc.dat file in case
-  the URLs used are not working.
+* Add a local copy of the `tia-utc.dat` file in case the URL options to retrieve
+  it are not working.
 
 # v1.0.0 (2019-08-21)
 
