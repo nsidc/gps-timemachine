@@ -1,10 +1,11 @@
 import datetime as dt
 import logging
-from pathlib import Path
+import pkgutil
 from urllib.request import urlopen
 from urllib.error import URLError, HTTPError, ContentTooShortError
 import socket
 from functools import lru_cache
+
 
 from .errors import LeapSecondsDataUnavailable
 
@@ -57,8 +58,7 @@ def _get_tai_utc():
                 TimeoutError, socket.error):
             pass
 
-    path = Path(__file__).parent / 'static' / 'tai-utc.dat'
-    f = path.open()
+    f = pkgutil.get_data(__name__, 'static/tai-utc.dat').decode('utf-8').splitlines()
     logging.warning('Attempts to retrieve tia-utc.dat file remotely failed, using local copy instead...')
     return f
 
