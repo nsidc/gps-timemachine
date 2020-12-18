@@ -43,7 +43,7 @@ files as they are available.
 """
 
 
-def _get_tai_utc(use_local=False):
+def _get_tai_utc(*, use_local=False):
     # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
     URLS_TO_TRY = ('http://maia.usno.navy.mil/ser7/tai-utc.dat',
                    'http://toshi.nofs.navy.mil/ser7/tai-utc.dat',
@@ -65,7 +65,7 @@ def _get_tai_utc(use_local=False):
     raise LeapSecondsDataUnavailable(URLS_TO_TRY)
 
 
-def load_leap_seconds(use_local=False):
+def load_leap_seconds(*, use_local=False):
     """Loads the historical record of leap seconds from the Time Service Dept.
     of the US Naval Observatory
 
@@ -84,7 +84,7 @@ def load_leap_seconds(use_local=False):
         [(datetime1, 25.0), (datetime2, 26.0)]
 
     """
-    f = _get_tai_utc(use_local)
+    f = _get_tai_utc(use_local=use_local)
 
     leap_seconds = []
     for line in f:
@@ -102,9 +102,9 @@ def load_leap_seconds(use_local=False):
 
 
 @lru_cache()
-def get_leap_seconds(use_local=False):
+def get_leap_seconds(*, use_local=False):
 
-    return load_leap_seconds(use_local)
+    return load_leap_seconds(use_local=use_local)
 
 
 def _gps_time_parts(gps_time):
@@ -120,7 +120,7 @@ def _gps_time_parts(gps_time):
     return (h, m, s, ms)
 
 
-def leap_seconds(dt, use_local=False):
+def leap_seconds(dt, *, use_local=False):
     """
     search the historical leap second record to find in the correct number of
     leap seconds to apply to the given datetime
@@ -137,15 +137,15 @@ def leap_seconds(dt, use_local=False):
     leap_seconds (type: float)
         number of leap seconds
     """
-    idx = len(get_leap_seconds(use_local)) - 1
+    idx = len(get_leap_seconds(use_local=use_local)) - 1
     # start at the end of the list becuase most data falls later in the 1961 - present record
-    while get_leap_seconds(use_local)[idx][0] > dt:
+    while get_leap_seconds(use_local=use_local)[idx][0] > dt:
         idx -= 1
-    leap_seconds = get_leap_seconds(use_local)[idx][1]
+    leap_seconds = get_leap_seconds(use_local=use_local)[idx][1]
     return leap_seconds
 
 
-def gps_to_utc(date, gps_time, use_local=False):
+def gps_to_utc(date, gps_time, *, use_local=False):
     """Convert the GPS time on a given date into a UTC datetime.
 
     Parameters
@@ -181,6 +181,6 @@ def gps_to_utc(date, gps_time, use_local=False):
         logging.warning(msg)
     gps_dt = dt.datetime(date.year, date.month, date.day, hour=hours,
                          minute=minutes, second=seconds, microsecond=milliseconds*1000)
-    utc_dt = gps_dt - dt.timedelta(seconds=leap_seconds(gps_dt, use_local))
+    utc_dt = gps_dt - dt.timedelta(seconds=leap_seconds(gps_dt, use_local=use_local))
 
     return utc_dt
