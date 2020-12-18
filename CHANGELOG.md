@@ -1,3 +1,8 @@
+# Unreleased
+
+* Add a local copy of the `tia-utc.dat` file in case the URL options to retrieve
+  it are not working.
+
 # v1.0.0 (2019-08-21)
 
 * Remove `LEAP_SECONDS` variable from the `gps` module. Previously, the variable

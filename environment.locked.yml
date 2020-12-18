@@ -3,23 +3,25 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - _libgcc_mutex=0.1=main
   - bumpversion=0.5.3=py_1001
   - bzip2=1.0.6=h14c3975_1002
-  - ca-certificates=2019.3.9=hecc5488_0
-  - certifi=2019.3.9=py37_0
+  - ca-certificates=2020.12.5=ha878542_0
+  - certifi=2020.12.5=py37h89c1867_0
   - flake8=3.5.0=py37_1000
-  - flake8-quotes=0.12.0=py_0
+  - flake8-quotes=2.1.1=py_0
   - libffi=3.2.1=he1b5a44_1006
   - libgcc-ng=8.2.0=hdf63c60_1
   - libstdcxx-ng=8.2.0=hdf63c60_1
   - mccabe=0.6.1=py_1
   - ncurses=6.1=hf484d3e_1002
-  - nose=1.3.7=py37_1002
-  - openssl=1.1.1b=h14c3975_1
+  - nose=1.3.7=py_1006
+  - openssl=1.1.1h=h516909a_0
   - pip=19.0.3=py37_0
   - pycodestyle=2.4.0=py_1
   - pyflakes=1.6.0=py_1
   - python=3.7.3=h5b0a415_0
+  - python_abi=3.7=1_cp37m
   - readline=7.0=hf8c457e_1001
   - setuptools=41.0.0=py37_0
   - sqlite=3.26.0=h67949de_1001
@@ -27,3 +29,4 @@ dependencies:
   - wheel=0.33.1=py37_0
   - xz=5.2.4=h14c3975_1001
   - zlib=1.2.11=h14c3975_1004
+prefix: /home/glewis/miniconda3/envs/gps-timemachine
