@@ -1,4 +1,4 @@
-# Unreleased
+# v1.1.0 (2020-12-18)
 
 * Add a local copy of the `tia-utc.dat` file in case the URL options to retrieve
   it are not working.
