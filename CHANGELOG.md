@@ -1,3 +1,7 @@
+# v1.1.2 (2020-12-21)
+
+* Fixed a bug where the data file wasn't loading when imported into other projects.
+
 # v1.1.1 (2020-12-21)
 
 * Refactored how the local copy of the data file is loaded to be more package
