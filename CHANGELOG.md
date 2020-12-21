@@ -1,3 +1,8 @@
+# v1.1.1 (2020-12-21)
+
+* Refactored how the local copy of the data file is loaded to be more package
+  friendly
+
 # v1.1.0 (2020-12-18)
 
 * Add a local copy of the `tia-utc.dat` file in case the URL options to retrieve
