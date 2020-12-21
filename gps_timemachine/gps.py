@@ -6,8 +6,10 @@ from urllib.error import URLError, HTTPError, ContentTooShortError
 import socket
 from functools import lru_cache
 
+from . import static
 
-from .errors import LeapSecondsDataUnavailable
+# UNCOMMENT THIS WHEN WE DO ERROR REPORTING AGAIN
+# from .errors import LeapSecondsDataUnavailable
 
 """
 NOTES on GPS -> UTC convertion
@@ -58,7 +60,7 @@ def _get_tai_utc():
                 TimeoutError, socket.error):
             pass
 
-    f = resources.open_text('gps_timemachine.static', 'tai-utc.dat')
+    f = resources.open_text(static, 'tai-utc.dat')
     logging.warning('Attempts to retrieve tia-utc.dat file remotely failed, using local copy instead...')
     return f
 
