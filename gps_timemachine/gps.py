@@ -58,7 +58,6 @@ def _get_tai_utc():
                 TimeoutError, socket.error):
             pass
 
-    # f = pkgutil.get_data(__name__, 'static/tai-utc.dat').decode('utf-8').splitlines()
     f = resources.open_text('gps_timemachine.static', 'tai-utc.dat')
     logging.warning('Attempts to retrieve tia-utc.dat file remotely failed, using local copy instead...')
     return f
