@@ -7,4 +7,8 @@ setup(name='gps-timemachine',
       author='NSIDC Development Team',
       author_email='programmers@nsidc.org',
       license='MIT',
-      packages=find_packages(exclude=('tasks',)))
+      packages=find_packages(exclude=('tasks',)),
+      package_data={
+            "gps_timemachine": ["static/*.dat"],
+      }
+      )
