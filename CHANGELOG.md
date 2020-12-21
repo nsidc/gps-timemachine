@@ -1,3 +1,8 @@
+# v1.1.3 (2020-12-21)
+
+* Exposing data file so that external clients can make use of it when requesting
+  the leap second data.
+
 # v1.1.2 (2020-12-21)
 
 * Fixed a bug where the data file wasn't loading when imported into other projects.
