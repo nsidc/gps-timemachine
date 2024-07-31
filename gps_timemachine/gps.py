@@ -47,10 +47,13 @@ files as they are available.
 
 
 def _get_tai_utc():
-    # documentation for leap seconds http://tycho.usno.navy.mil/leapsec.html
-    URLS_TO_TRY = ('http://maia.usno.navy.mil/ser7/tai-utc.dat',
-                   'http://toshi.nofs.navy.mil/ser7/tai-utc.dat',
-                   'ftp://cddis.gsfc.nasa.gov/pub/products/iers/tai-utc.dat')
+    # Add URLS as needed. We have encountered errors with various servers over
+    # the years, and now there is only one known source of the data that's
+    # publicly available and not behind earthdata login. A mirror of the navy
+    # tai-utc.dat file can be found here:
+    # https://cddis.nasa.gov/archive/products/iers/tai-utc.dat, behind earthdata
+    # login. Earthdata login is not currently supported by gps-timemachine.
+    URLS_TO_TRY = ('https://maia.usno.navy.mil/ser7/tai-utc.dat',)
 
     for url in URLS_TO_TRY:
         try:
