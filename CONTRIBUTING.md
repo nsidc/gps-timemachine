@@ -21,9 +21,14 @@ In more detail:
         $ git add CHANGELOG.md ...
         $ git commit -m "Release v.X.Y.Z"
 
-3. Bump the version to the desired level:
+3. Bump the version to the desired level. This will create a commit with the
+   version change.
 
         $ bumpversion (major|minor|patch)
+        
+4. Tag the commit with the version
+
+        $ git tag vX.Y.Z
 
 4. Push
 
