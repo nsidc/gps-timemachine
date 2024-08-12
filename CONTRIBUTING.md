@@ -7,7 +7,7 @@ In more detail:
 
 1. Create a feature branch.
 2. Create and push commits on that branch.
-3. The feature branch will get tested on GHA with each push.
+3. The feature branch will get tested on GitHub Actions (GHA) with each push.
 4. Update the CHANGELOG with description of changes.
 5. Create a Pull Request on GitHub.
 6. When the feature PR is merged, main will get built on GHA.
