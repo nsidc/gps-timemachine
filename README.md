@@ -1,5 +1,8 @@
-gps-timemachine
----
+<p align="center">
+  <img alt="NSIDC logo" src="https://nsidc.org/themes/custom/nsidc/logo.svg" width="150" />
+</p>
+
+# gps-timemachine
 
 GPS Time Machine provides the ability to convert a date and GPS time
 (hours, minutes, seconds, fractions of second) to a datetime object.
@@ -19,64 +22,36 @@ adjustment. See [NOTES](NOTES.md) for more information.
 [![Anaconda-Server Badge](https://anaconda.org/nsidc/gps-timemachine/badges/downloads.svg)](https://anaconda.org/nsidc/gps-timemachine)
 [![Anaconda-Server Badge](https://anaconda.org/nsidc/gps-timemachine/badges/installer/conda.svg)](https://conda.anaconda.org/nsidc)
 
-Prerequisites
----
+
+## Level of Support
+
+This repository is not actively supported by NSIDC but we welcome issue
+submissions and pull requests in order to foster community contribution.
+
+See the [LICENSE](LICENSE) for details on permissions and warranties. Please
+contact nsidc@nsidc.org for more information.
+
+## Requirements
 
 * [Miniconda3](https://conda.io/miniconda.html)
 
-Development
----
-
 Install dependencies:
 
-    $ conda env create -f=./environment.locked.yml
+    $ conda env create -f ./environment.yml
     $ source activate gps-timemachine
 
-Workflow
----
+## Installation
 
-TL;DR:  Use
-[GitHub Flow](https://guides.github.com/introduction/flow/index.html).
-
-In more detail:
-
-1. Create a feature branch.
-2. Create and push commits on that branch.
-3. The feature branch will get built on CircleCI with each push.
-4. Update the CHANGELOG with description of changes.
-5. Create a Pull Request on BitBucket.
-6. When the feature PR is merged, master will get built on CircleCI.
-
-Releasing
----
-
-1. Update the CHANGELOG to list the new version.
-2. Add files and commit
-
-        $ git add CHANGELOG.md ...
-        $ git commit -m "Release v.X.Y.Z"
-
-3. Bump the version to the desired level:
-
-        $ bumpversion (major|minor|patch)
-
-4. Push
-
-        $ git push origin master --tags
-
-CircleCI will build the conda package and publish it to anaconda.org.
-
-Installing
----
 To install and use it in another project:
 
     $ conda install gps-timemachine
 
-License
----
+## Usage
 
-Copyright 2018-2019 National Snow and Ice Datacenter (NSIDC)
-<programmers@nsidc.org>.
+TODO
 
-This software is licensed under the MIT License. See [LICENSE
-File](LICENSE).
+
+## Credit
+
+This content was developed by the National Snow and Ice Data Center with funding from
+multiple sources.

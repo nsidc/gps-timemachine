@@ -1,7 +1,5 @@
 import datetime as dt
 
-from nose.tools import assert_equal
-
 from gps_timemachine.gps import gps_to_utc, load_leap_seconds
 
 
@@ -13,7 +11,7 @@ def test_gps_to_utc_start():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_gps_to_utc_early_years():
@@ -24,7 +22,7 @@ def test_gps_to_utc_early_years():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_gps_to_utc_middle_years():
@@ -35,7 +33,7 @@ def test_gps_to_utc_middle_years():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_gps_to_utc_later_years():
@@ -46,7 +44,7 @@ def test_gps_to_utc_later_years():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_gps_to_utc_later_years_with_hms():
@@ -57,7 +55,7 @@ def test_gps_to_utc_later_years_with_hms():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_gps_to_utc_large_milliseconds_bug():
@@ -68,7 +66,7 @@ def test_gps_to_utc_large_milliseconds_bug():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_gps_to_utc_large_milliseconds_rolls_to_next_day():
@@ -79,7 +77,7 @@ def test_gps_to_utc_large_milliseconds_rolls_to_next_day():
 
     actual_dt = gps_to_utc(d, gps_time)
 
-    assert_equal(expected_dt, actual_dt)
+    assert expected_dt == actual_dt
 
 
 def test_load_leap_seconds():
@@ -87,4 +85,4 @@ def test_load_leap_seconds():
     expected = (dt.datetime(1983, 7, 1, 0, 0), 3.0)
     actual = leap_seconds[25]
 
-    assert_equal(expected, actual)
+    assert expected == actual
