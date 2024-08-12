@@ -29,7 +29,7 @@ Development
 
 Install dependencies:
 
-    $ conda env create -f=./environment.locked.yml
+    $ conda env create -f ./environment.yml
     $ source activate gps-timemachine
 
 Workflow
@@ -42,10 +42,10 @@ In more detail:
 
 1. Create a feature branch.
 2. Create and push commits on that branch.
-3. The feature branch will get built on CircleCI with each push.
+3. The feature branch will get tested on GHA with each push.
 4. Update the CHANGELOG with description of changes.
-5. Create a Pull Request on BitBucket.
-6. When the feature PR is merged, master will get built on CircleCI.
+5. Create a Pull Request on GitHub.
+6. When the feature PR is merged, main will get built on GHA.
 
 Releasing
 ---
@@ -62,7 +62,7 @@ Releasing
 
 4. Push
 
-        $ git push origin master --tags
+        $ git push origin main --tags
 
 CircleCI will build the conda package and publish it to anaconda.org.
 
