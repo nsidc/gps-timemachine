@@ -1,3 +1,7 @@
+# v1.1.4 (2024-08-12)
+
+* Update URL for `tai-utc.dat` leap-seconds file.
+
 # v1.1.3 (2020-12-21)
 
 * Exposing data file so that external clients can make use of it when requesting
