@@ -1,3 +1,7 @@
+# v1.1.5 (2024-08-16)
+
+* Initial packaging for PyPI
+
 # v1.1.4 (2024-08-12)
 
 * Update URL for `tai-utc.dat` leap-seconds file.
