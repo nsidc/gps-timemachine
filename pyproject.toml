@@ -1,10 +1,10 @@
 [project]
-name = 'gps-timemachine'
-version = '1.1.4'
-description = 'Adjust GPS datetimes to UTC.'
+name = "gps-timemachine"
+version = "1.1.4"
+description = "Adjust GPS datetimes to UTC."
 readme = "README.md"
 authors = [
-  {name = "NSIDC Development Team", email = 'programmers@nsidc.org'},
+  {name = "NSIDC Development Team", email = "programmers@nsidc.org"},
 ]
 license.file = "LICENSE"
 requires-python = ">=3.10"
