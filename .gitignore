@@ -1,3 +1,4 @@
+/dist/
 *.py[co]
 /.nsidc-project.yaml
 /.vagrant-*
