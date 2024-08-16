@@ -2,6 +2,7 @@
 name = 'gps-timemachine'
 version = '1.1.4'
 description = 'Adjust GPS datetimes to UTC.'
+readme = "README.md"
 authors = [
   {name = "NSIDC Development Team", email = 'programmers@nsidc.org'},
 ]
